@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class PlayerController : MonoBehaviour
 {
@@ -32,9 +33,24 @@ public class PlayerController : MonoBehaviour
     #region attackVariables
     public float Damage;
     public float attackRange;
-    private bool atCooldown;
     private bool isAttacking;
-    float attackTimer;
+
+    public float totalMana;
+    private float currMana;
+    public Slider ManaBar;
+    public float peckCooldown;
+    public float dashCooldown;
+    // The following booleans could replace isAttacking later
+    public float peckManaCost;
+    public float dashManaCost;
+    private bool isPeckReady;
+    private bool isDashReady;
+    #endregion
+
+    // Uncomment this section when animations are ready
+    #region Animations
+    //Animator pecking;
+    //Animator dashing;
     #endregion
 
     #region unityFunctions
@@ -42,10 +58,14 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         birdPlayer = GetComponent<Player>();
-        attackTimer = 0; // Player starts off ready to attack 
         birdBody = GetComponent<Rigidbody>();
         originalConstraints = birdBody.constraints;
         isAttacking = false;
+
+        /*
+        pecking = GetComponent<Animator>();
+        dashing = GetComponent<Animator>();
+        */ 
     }
 
     // Might need an Update() function? Implement later for when bird does a certain action
@@ -67,15 +87,13 @@ public class PlayerController : MonoBehaviour
         Move();
         
         
-        if (Input.GetKeyDown(KeyCode.Mouse0) && attackTimer <= 0)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking)
         {
-            PeckAttack();
-        } else if (Input.GetKeyDown(KeyCode.Mouse1) && attackTimer <= 0)
+            StartCoroutine(PeckAttack());
+        }
+        if (Input.GetKeyDown(KeyCode.Mouse1) && !isAttacking)
         {
-            DashAttack();
-        } else
-        {
-            attackTimer -= Time.deltaTime;
+            StartCoroutine(DashAttack());
         }
         /*
         if (Input.GetKeyDown(KeyCode.F))
@@ -140,97 +158,37 @@ public class PlayerController : MonoBehaviour
 
     #region attackFunctions
 
-    /*
-    private void Attack()
+    IEnumerator PeckAttack()
     {
-        // For now, we will set left click to attack and F to toggle attack method
-        // Pressing F will go through element list
-
-        // The following message will display when you left click
-        Debug.Log("Left click initialized! Basic peck attack");
-    }
-    */
-    private void PeckAttack()
-    {
-        Debug.Log("Left click initialized! Peck attack");
         isAttacking = true;
-        // Play animation for pecking
 
-        
-        // Still need to figure out where transform.forward is pointing. Maybe I just want a Vector3.right when facing the enemy on the right.
-        /*
-        RaycastHit[] hits = Physics.RaycastAll(transform.position, Vector3.right, attackRange);
+        // Play pecking animation
+        // pecking.SetTrigger("Pecking trigger");
 
-        foreach (RaycastHit hit in hits)
-        {
-            Debug.Log(hit.transform.name);
-            if (hit.transform.CompareTag("Enemy"))
-            {
-                Debug.Log("Attacking BasicEnemy");
-                hit.transform.GetComponent<Enemy>().TakeDamage(Damage);
-                // Basic Enemy should die here. Check to see if enemy object gets destroyed.
-                // Notes: AttackRange = 2 in order to consistently detect basicEnemy.
-                // Since BasicEnemy has 5 health, the player does 5 damage to oneshot the enemy.
+        yield return new WaitForSeconds(peckCooldown);
+        Debug.Log("Peck Attack Cooldown: " + peckCooldown.ToString());
 
-                // Hitbox Inconsistencies: If enemy is aligned with the bird's beak, it doesn't hit the enemy. The bird's attack will hit if enemy touches bird's belly.
-            }
-        }
-        */
+        isAttacking = false;
     }
-
-    private void DashAttack()
+    
+    IEnumerator DashAttack()
     {
-        Debug.Log("Right click initialized! Dash attack");
         isAttacking = true;
+
+        // Play dashing animation
+        // dashing.SetTrigger("Dashing trigger");
         float dashDistance = 5f;
 
-
-
-        // Below code is for teleporting. We can use this later in case we still want teleporting.
-        // For now, this will be omitted.
-        /*
-        if (xInput > 0)
-        {
-            birdBody.position += Vector3.right * dashDistance;
-        } else if (xInput < 0)
-        {
-            birdBody.position -= Vector3.right * dashDistance;
-        }
-        */
-
-        // Actual dashing behavior
-        // For later: Possibly consider a dash cooldown timer to prevent spamming
-
-        // Fix by 11/5: Fix dashing so that if bird touches enemy while dashing, bird oneshots enemy and dashes through enemy.
-        /*
-        if (xInput > 0)
-        {
-            birdBody.AddForce(Vector3.right * dashDistance * moveSpeed, ForceMode.Impulse);
-        }
-        else if (xInput < 0)
-        {
-            birdBody.AddForce(Vector3.left * dashDistance * moveSpeed, ForceMode.Impulse);
-        }
-        */
         Vector3 movement_vector = new Vector3(xInput, yInput);
         movement_vector = movement_vector.normalized;
         birdBody.AddForce(movement_vector * dashDistance * moveSpeed, ForceMode.Impulse);
 
-        /*
-        RaycastHit[] hits = Physics.RaycastAll(transform.position, Vector3.right, attackRange);
+        yield return new WaitForSeconds(dashCooldown);
+        Debug.Log("Dash Attack Cooldown: " + dashCooldown.ToString());
 
-        foreach (RaycastHit hit in hits)
-        {
-            Debug.Log(hit.transform.name);
-            if (hit.transform.CompareTag("Enemy"))
-            {
-                Debug.Log("Attacking BasicEnemy");
-                hit.transform.GetComponent<Enemy>().TakeDamage(Damage);
-            }
-
-        }
-        */
+        isAttacking = false;
     }
+    
     /*
     // chooseAttack might have parameters to set which elemental attack the bird will have equipped
     private void chooseAttack()

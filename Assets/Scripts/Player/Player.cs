@@ -56,7 +56,7 @@ public class Player : MonoBehaviour
         corrupted = true;
         Destroy(this.gameObject);
 
-        //SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("MainMenu");
 
         // Maybe implement something later on here to end the game (Proj1 used a GameManager to end the game).
     }
