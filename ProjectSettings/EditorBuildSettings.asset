@@ -14,4 +14,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/WindKingdom3D.unity
     guid: 4f0cab6e13ae449748aa5730f02689aa
+  - enabled: 1
+    path: Assets/Scenes/DeathScene.unity
+    guid: 503e4cc93a48b4e4ab567a6bfc08ed2e
   m_configObjects: {}

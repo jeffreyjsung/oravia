@@ -3,9 +3,22 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Menu : MonoBehaviour
+public class GameManager : MonoBehaviour
 {
-    
+    public static GameManager Instance = null;
+
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+        } else if (Instance != this)
+        {
+            Destroy(this.gameObject);
+        }
+        DontDestroyOnLoad(gameObject);
+    }
+
     void Update()
     {
         if (Input.GetKeyDown(KeyCode.Escape) == true)
@@ -16,6 +29,15 @@ public class Menu : MonoBehaviour
     public void playGame()
     {
         SceneManager.LoadScene("WindKingdom3D");
+    }
+    public void MainMenu()
+    {
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void DeathScene()
+    {
+        SceneManager.LoadScene("DeathScene");
     }
 
     public void quitGame()

@@ -23,16 +23,20 @@ public class BossController : Enemy
     private float frozenTime;
 
     [SerializeField]
+    [Tooltip("The cooldown time of this attack.")]
+    private float cooldownTime;
+
+    [SerializeField]
     [Tooltip("The range of this boss' attack.")]
     private float attackRange;
 
     [SerializeField]
-    [Tooltip("The number of times this boss can attack in one position.")]
-    private int attacksPerPosition;
-
-    [SerializeField]
     [Tooltip("Where to spawn the attack with respect to the boss.")]
     private Vector3 attackOffset;
+
+    [SerializeField]
+    [Tooltip("The number of times this boss can attack in one position.")]
+    private int attacksPerPosition;
 
     [SerializeField]
     [Tooltip("The positions this boss can move to.")]
@@ -50,19 +54,19 @@ public class BossController : Enemy
 
     private float frozenTimer;
 
-    private int i;
-
     private Rigidbody bossRigidbody;
 
     //private Enemy bossEnemy;
 
     private float attackTime;
 
-    private bool isAttacking;
+    private bool isAttacking = false;
 
-    private int numAttackSoFar;
+    private int numAttackSoFar = 0;
 
     private ParticleSystem attackEffect;
+
+    private int i = 0;
     #endregion
 
     #region Unity Functions
@@ -75,36 +79,21 @@ public class BossController : Enemy
         //bossEnemy = GetComponent<Enemy>();
         frozenTimer = frozenTime;
         attackWaitTimer = attackWaitTime;
-        numAttackSoFar = 0;
         attackTime = 0.6f;
-        isAttacking = false;
-        i = 0;
         HPBar.value = currHealth / totalHealth;
         //boss = Instantiate<Enemy>(bossEnemy, movePositions[i], Quaternion.identity);
         attackEffect = GetComponentInChildren<ParticleSystem>();
         attackEffect.Stop();
     }
 
+    //private void Start()
+    //{
+    //    i = 0;
+    //}
+
     // Update is called once per frame
     void Update()
     {
-        //if (frozenTimer > 0)
-        //{
-        //    frozenTimer -= Time.deltaTime;
-        //    return;
-        //} else
-        //{
-        //    frozenTimer = 0;
-        //}
-
-        //if (attackWaitTimer > 0)
-        //{
-        //    attackWaitTimer -= Time.deltaTime;
-        //    return;
-        //} else
-        //{
-        //    attackWaitTimer = 0;
-        //}
         if (frozenTimer > 0)
         {
             frozenTimer -= Time.deltaTime;
@@ -136,6 +125,14 @@ public class BossController : Enemy
             }
         }
 
+        Move();
+    }
+    #endregion
+
+    #region Movement Function
+    private void Move()
+    {        
+        // Movement using transform
         if (transform.position == movePositions[i])
         {
             frozenTimer = frozenTime;
@@ -150,34 +147,12 @@ public class BossController : Enemy
         if (frozenTimer <= 0)
         {
             Vector3 moveTo = movePositions[i];
-            Move(moveTo);
+            transform.position = Vector3.MoveTowards(transform.position, moveTo, moveSpeed * Time.deltaTime);
         }
-
-        //Debug.Log(bossRigidbody.position);
-        //boss.transform.position = Vector3.MoveTowards(boss.transform.position, moveTo, boss.moveSpeed * Time.deltaTime);
-        //GetComponent<Renderer>().material.color = Color.black;
-        //GetComponent<Renderer>().material.color = Color.white;
-    }
-    #endregion
-
-    #region Movement Function
-    private void Move(Vector3 moveTo)
-    {
-        // Movement using transform
-        transform.position = Vector3.MoveTowards(transform.position, moveTo, moveSpeed * Time.deltaTime);
 
         // Movement using rigidbody
         //Vector3 movementVector = (moveTo - bossRigidbody.position).normalized;
-        //bossRigidbody.MovePosition(bossRigidbody.position + movementVector * Time.deltaTime * bossEnemy.moveSpeed);
-
-        //Vector3 moveTo = new Vector3(Random.Range(bounds[0][0], bounds[1][0]), Random.Range(bounds[0][1], bounds[1][1]), 0f);
-        //Vector3 moveTo = transform.position + Vector3.up;
-        //Debug.Log("Next position this boss is moving to: " + moveTo);
-        //Debug.Log("Current position of this boss: " + transform.position);
-        //attackWaitTimer = attackWaitTime;
-        //frozenTimer = frozenTime;
-        //Attack();
-        //GetComponent<Renderer>().material.color = Color.white;
+        //bossRigidbody.MovePosition(bossRigidbody.position + movementVector * Time.deltaTime * moveSpeed);
     }
     #endregion
 

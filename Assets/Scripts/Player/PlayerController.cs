@@ -40,9 +40,9 @@ public class PlayerController : MonoBehaviour
     public Slider ManaBar;
     public float peckCooldown;
     public float dashCooldown;
-    // The following booleans could replace isAttacking later
     public float peckManaCost;
     public float dashManaCost;
+    // The following booleans could replace isAttacking later
     private bool isPeckReady;
     private bool isDashReady;
     #endregion
@@ -61,6 +61,9 @@ public class PlayerController : MonoBehaviour
         birdBody = GetComponent<Rigidbody>();
         originalConstraints = birdBody.constraints;
         isAttacking = false;
+
+        currMana = totalMana;
+        ManaBar.value = currMana / totalMana;
 
         /*
         pecking = GetComponent<Animator>();
@@ -165,8 +168,18 @@ public class PlayerController : MonoBehaviour
         // Play pecking animation
         // pecking.SetTrigger("Pecking trigger");
 
+        currMana -= peckManaCost;
+        ManaBar.value = currMana / totalMana;
+
+        if (currMana <= 0)
+        {
+            isAttacking = false;
+        }
+
         yield return new WaitForSeconds(peckCooldown);
         Debug.Log("Peck Attack Cooldown: " + peckCooldown.ToString());
+
+        
 
         isAttacking = false;
     }
@@ -182,6 +195,16 @@ public class PlayerController : MonoBehaviour
         Vector3 movement_vector = new Vector3(xInput, yInput);
         movement_vector = movement_vector.normalized;
         birdBody.AddForce(movement_vector * dashDistance * moveSpeed, ForceMode.Impulse);
+
+        
+        
+        currMana -= dashManaCost;
+        ManaBar.value = currMana / totalMana;
+
+        if (currMana <= 0)
+        {
+            isAttacking = false;
+        }
 
         yield return new WaitForSeconds(dashCooldown);
         Debug.Log("Dash Attack Cooldown: " + dashCooldown.ToString());
