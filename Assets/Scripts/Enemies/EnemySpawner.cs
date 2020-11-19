@@ -22,7 +22,7 @@ public class EnemySpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        Debug.Log(nextSpawn + " " + Time.time);
+        //Debug.Log(nextSpawn + " " + Time.time);
 
         if (Time.time > nextSpawn)
         {
@@ -33,7 +33,7 @@ public class EnemySpawner : MonoBehaviour
             randX = Random.Range(-10f, 10f); // could make these values settable in the inspector if we really want, just make floats for the bounds
             randY = Random.Range(-10f, 10f);
             spawnLocation = new Vector3(transform.position.x + randX, transform.position.y + randY, -63.0f);
-            Debug.Log(spawnLocation);
+            //Debug.Log(spawnLocation);
             Instantiate(enemy, spawnLocation, Quaternion.identity);
         }
     }

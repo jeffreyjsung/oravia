@@ -28,6 +28,11 @@ public class GameManager : MonoBehaviour
     }
     public void playGame()
     {
+        SceneManager.LoadScene("IntroStory");
+    }
+
+    public void loadGame()
+    {
         SceneManager.LoadScene("WindKingdom3D");
     }
     public void MainMenu()

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BossController : Enemy
 {
@@ -54,6 +55,8 @@ public class BossController : Enemy
 
     private float frozenTimer;
 
+    //private float cooldownTimer;
+
     private Rigidbody bossRigidbody;
 
     //private Enemy bossEnemy;
@@ -64,9 +67,13 @@ public class BossController : Enemy
 
     private int numAttackSoFar = 0;
 
+    private bool attacked = false;
+
     private ParticleSystem attackEffect;
 
-    private int i = 0;
+    private int moveIndex = 0;
+
+    private Animator animator;
     #endregion
 
     #region Unity Functions
@@ -79,16 +86,18 @@ public class BossController : Enemy
         //bossEnemy = GetComponent<Enemy>();
         frozenTimer = frozenTime;
         attackWaitTimer = attackWaitTime;
+        //cooldownTimer = cooldownTime;
         attackTime = 0.6f;
         HPBar.value = currHealth / totalHealth;
         //boss = Instantiate<Enemy>(bossEnemy, movePositions[i], Quaternion.identity);
-        attackEffect = GetComponentInChildren<ParticleSystem>();
-        attackEffect.Stop();
+        //attackEffect = GetComponentInChildren<ParticleSystem>();
+        //attackEffect.Stop();
+        animator = GetComponent<Animator>();
     }
 
     //private void Start()
     //{
-    //    i = 0;
+    //    moveIndex = 0;
     //}
 
     // Update is called once per frame
@@ -97,7 +106,7 @@ public class BossController : Enemy
         if (frozenTimer > 0)
         {
             frozenTimer -= Time.deltaTime;
-            if (numAttackSoFar < attacksPerPosition)
+            if (!attacked)
             {
                 attackWaitTimer -= Time.deltaTime;
             }
@@ -108,22 +117,23 @@ public class BossController : Enemy
 
         if (attackWaitTimer <= 0)
         {
-            Attack();
-            isAttacking = true;
-            numAttackSoFar++;
+            StartCoroutine(Attack());
+            attacked = true;
+            //isAttacking = true;
+            //numAttackSoFar++;
             attackWaitTimer = attackWaitTime;
         }
 
-        if (isAttacking)
-        {
-            attackTime -= Time.deltaTime;
-            if (attackTime <= 0)
-            {
-                //GetComponent<Renderer>().material.color = Color.white;
-                isAttacking = false;
-                attackTime = 0.6f;
-            }
-        }
+        //if (isAttacking)
+        //{
+        //    attackTime -= Time.deltaTime;
+        //    if (attackTime <= 0)
+        //    {
+        //        //GetComponent<Renderer>().material.color = Color.white;
+        //        isAttacking = false;
+        //        attackTime = 0.6f;
+        //    }
+        //}
 
         Move();
     }
@@ -133,20 +143,23 @@ public class BossController : Enemy
     private void Move()
     {        
         // Movement using transform
-        if (transform.position == movePositions[i])
+        if (transform.position == movePositions[moveIndex])
         {
             frozenTimer = frozenTime;
-            numAttackSoFar = 0;
-            i++;
-            if (i >= movePositions.Length)
+            //attackWaitTimer = attackWaitTime;
+            attacked = false;
+            animator.SetBool("isAttacking", false);
+            //numAttackSoFar = 0;
+            moveIndex++;
+            if (moveIndex >= movePositions.Length)
             {
-                i = 0;
+                moveIndex = 0;
             }
         }
 
         if (frozenTimer <= 0)
         {
-            Vector3 moveTo = movePositions[i];
+            Vector3 moveTo = movePositions[moveIndex];
             transform.position = Vector3.MoveTowards(transform.position, moveTo, moveSpeed * Time.deltaTime);
         }
 
@@ -156,13 +169,25 @@ public class BossController : Enemy
     }
     #endregion
 
-    #region Attack Function
-    private void Attack()
+    #region Attack Functions
+    private IEnumerator Attack()
+    {
+        animator.SetBool("isAttacking", true);
+        for (int i = 0; i < attacksPerPosition; i++)
+        {
+            UseAttack();
+            Debug.Log("Attack Number: " + i);
+            yield return new WaitForSeconds(cooldownTime);
+        }
+        //attacked = true;
+    }
+
+    private void UseAttack()
     {
         //GetComponent<Renderer>().material.color = Color.black;
         Debug.Log("This boss is performing an attack now.");
         RaycastHit hit;
-        attackEffect.Play();
+        //attackEffect.Play();
         if (Physics.SphereCast(transform.position + attackOffset, 0.5f, Vector3.left, out hit, attackRange))
         {
             if (hit.collider.CompareTag("Player"))
@@ -193,6 +218,8 @@ public class BossController : Enemy
         if (currHealth <= 0)
         {
             Purify();
+
+            SceneManager.LoadScene("Aftermath");
         }
     }
     #endregion

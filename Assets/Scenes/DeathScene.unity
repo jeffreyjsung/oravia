@@ -355,7 +355,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 8308111801459820927, guid: 5a5092c6732ec0c49b00b74a47f073a2,
           type: 3}
-        m_MethodName: playGame
+        m_MethodName: loadGame
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

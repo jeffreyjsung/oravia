@@ -68,7 +68,12 @@ public class BasicEnemyMovement : Enemy
 
     private void OnCollisionExit(Collision coll)
     {
-        pos2 = whereToGo;
+        Vector3[] list = new Vector3[2];
+        list[0] = originalPos1;
+        list[1] = originalPos2;
+        int index = Random.Range(0, 2);
+        pos2 = list[index];
+        Debug.Log("work");
     }
     #endregion
 }
