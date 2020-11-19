@@ -10,6 +10,7 @@ public class WindZone : MonoBehaviour
     private BoxCollider area;
     public float waitInterval;
     public float howLongTheWindLasts;
+    public ParticleSystem[] windEffects;
     #endregion
 
     #region Unity_functions
@@ -33,8 +34,10 @@ public class WindZone : MonoBehaviour
         while(true)
         {
             area.enabled = false;
+            this.transform.Find("Wind Effects").gameObject.SetActive(false);
             yield return new WaitForSeconds(waitInterval);
             area.enabled = true;
+            this.transform.Find("Wind Effects").gameObject.SetActive(true);
             yield return new WaitForSeconds(howLongTheWindLasts);
         }
     }

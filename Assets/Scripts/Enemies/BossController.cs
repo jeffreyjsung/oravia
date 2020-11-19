@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.SceneManagement;
 
 public class BossController : Enemy
 {
@@ -11,9 +10,9 @@ public class BossController : Enemy
     //[Tooltip("The type of boss.")]
     //private Enemy bossEnemy;
 
-    //[SerializeField]
-    //[Tooltip("A list of this boss' attacks.")]
-    //private Attack[] attacks;
+    [SerializeField]
+    [Tooltip("This boss' attack.")]
+    private Attack attack;
 
     [SerializeField]
     [Tooltip("The amount of time to wait before attacking (must be less than Frozen Time).")]
@@ -23,17 +22,17 @@ public class BossController : Enemy
     [Tooltip("The amount of time this boss is frozen to attack (must be longer than the attack animation).")]
     private float frozenTime;
 
-    [SerializeField]
-    [Tooltip("The cooldown time of this attack.")]
-    private float cooldownTime;
+    //[SerializeField]
+    //[Tooltip("The cooldown time of this attack.")]
+    //private float cooldownTime;
 
-    [SerializeField]
-    [Tooltip("The range of this boss' attack.")]
-    private float attackRange;
+    //[SerializeField]
+    //[Tooltip("The range of this boss' attack.")]
+    //private float attackRange;
 
-    [SerializeField]
-    [Tooltip("Where to spawn the attack with respect to the boss.")]
-    private Vector3 attackOffset;
+    //[SerializeField]
+    //[Tooltip("Where to spawn the attack with respect to the boss.")]
+    //private Vector3 attackOffset;
 
     [SerializeField]
     [Tooltip("The number of times this boss can attack in one position.")]
@@ -67,13 +66,11 @@ public class BossController : Enemy
 
     private int numAttackSoFar = 0;
 
-    private bool attacked = false;
+    private bool hasAttacked = false;
 
-    private ParticleSystem attackEffect;
+    //private ParticleSystem attackEffect;
 
     private int moveIndex = 0;
-
-    private Animator animator;
     #endregion
 
     #region Unity Functions
@@ -92,7 +89,6 @@ public class BossController : Enemy
         //boss = Instantiate<Enemy>(bossEnemy, movePositions[i], Quaternion.identity);
         //attackEffect = GetComponentInChildren<ParticleSystem>();
         //attackEffect.Stop();
-        animator = GetComponent<Animator>();
     }
 
     //private void Start()
@@ -103,10 +99,11 @@ public class BossController : Enemy
     // Update is called once per frame
     void Update()
     {
+        Debug.Log("Boss Update");
         if (frozenTimer > 0)
         {
             frozenTimer -= Time.deltaTime;
-            if (!attacked)
+            if (!hasAttacked)
             {
                 attackWaitTimer -= Time.deltaTime;
             }
@@ -118,7 +115,7 @@ public class BossController : Enemy
         if (attackWaitTimer <= 0)
         {
             StartCoroutine(Attack());
-            attacked = true;
+            hasAttacked = true;
             //isAttacking = true;
             //numAttackSoFar++;
             attackWaitTimer = attackWaitTime;
@@ -147,8 +144,7 @@ public class BossController : Enemy
         {
             frozenTimer = frozenTime;
             //attackWaitTimer = attackWaitTime;
-            attacked = false;
-            animator.SetBool("isAttacking", false);
+            hasAttacked = false;
             //numAttackSoFar = 0;
             moveIndex++;
             if (moveIndex >= movePositions.Length)
@@ -172,30 +168,29 @@ public class BossController : Enemy
     #region Attack Functions
     private IEnumerator Attack()
     {
-        animator.SetBool("isAttacking", true);
         for (int i = 0; i < attacksPerPosition; i++)
         {
-            UseAttack();
-            Debug.Log("Attack Number: " + i);
-            yield return new WaitForSeconds(cooldownTime);
+            attack.UseAttack(transform.position + attack.attackOffset, Vector3.left, "Player");
+            //Debug.Log("Attack Number: " + i);
+            yield return new WaitForSeconds(attack.cooldownTime);
         }
         //attacked = true;
     }
 
-    private void UseAttack()
-    {
-        //GetComponent<Renderer>().material.color = Color.black;
-        Debug.Log("This boss is performing an attack now.");
-        RaycastHit hit;
-        //attackEffect.Play();
-        if (Physics.SphereCast(transform.position + attackOffset, 0.5f, Vector3.left, out hit, attackRange))
-        {
-            if (hit.collider.CompareTag("Player"))
-            {
-                hit.collider.GetComponent<Player>().TakeDamage(damageDealt);
-            }
-        }
-    }
+    //private void UseAttack()
+    //{
+    //    //GetComponent<Renderer>().material.color = Color.black;
+    //    //Debug.Log("This boss is performing an attack now.");
+    //    RaycastHit hit;
+    //    //attackEffect.Play();
+    //    if (Physics.SphereCast(transform.position + attackOffset, 0.5f, Vector3.left, out hit, attackRange))
+    //    {
+    //        if (hit.collider.CompareTag("Player"))
+    //        {
+    //            hit.collider.GetComponent<Player>().TakeDamage(damageDealt);
+    //        }
+    //    }
+    //}
     #endregion
 
     #region Health Functions
@@ -218,8 +213,6 @@ public class BossController : Enemy
         if (currHealth <= 0)
         {
             Purify();
-
-            SceneManager.LoadScene("Aftermath");
         }
     }
     #endregion

@@ -53,7 +53,7 @@ public class PlayerController : MonoBehaviour
 
     // Uncomment this section when animations are ready
     #region Animations
-    //Animator pecking;
+    Animator pecking;
     //Animator dashing;
     #endregion
 
@@ -69,10 +69,10 @@ public class PlayerController : MonoBehaviour
         currMana = totalMana;
         ManaBar.value = currMana / totalMana;
 
-        /*
+        
         pecking = GetComponent<Animator>();
-        dashing = GetComponent<Animator>();
-        */ 
+        //dashing = GetComponent<Animator>();
+        
     }
 
     private void Update()
@@ -158,9 +158,23 @@ public class PlayerController : MonoBehaviour
     #region movementFunctions
     private void Move()
     {
-        Vector3 movement_vector = new Vector3(xInput, yInput);
-        movement_vector = movement_vector.normalized;
-        birdBody.MovePosition(birdBody.position + movement_vector * Time.deltaTime * moveSpeed);
+        pecking.SetBool("Moving", true);
+
+        if (xInput != 0 || yInput != 0)
+        {
+            Vector3 movement_vector = new Vector3(xInput, yInput);
+            movement_vector = movement_vector.normalized;
+            birdBody.MovePosition(birdBody.position + movement_vector * Time.deltaTime * moveSpeed);
+        } else
+        {
+            pecking.SetBool("Moving", false);
+            Vector3 movement_vector = new Vector3(xInput, yInput);
+            movement_vector = movement_vector.normalized;
+            birdBody.MovePosition(birdBody.position + movement_vector * Time.deltaTime * moveSpeed);
+        }
+        
+
+        
     }
     #endregion
 
@@ -171,7 +185,7 @@ public class PlayerController : MonoBehaviour
         isAttacking = true;
 
         // Play pecking animation
-        // pecking.SetTrigger("Pecking trigger");
+        pecking.SetTrigger("Pecking");
 
         currMana -= peckManaCost;
         ManaBar.value = currMana / totalMana;
