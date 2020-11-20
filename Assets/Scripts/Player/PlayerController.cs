@@ -20,8 +20,7 @@ public class PlayerController : MonoBehaviour
 
     float xInput;
     float yInput;
-    [SerializeField]
-    private float maxHeight;
+    public float maxHeight;
     [SerializeField]
     private float minHeight;
     [SerializeField]
@@ -77,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        //Debug.Log("Direction of player: " + transform.forward);
         xInput = Input.GetAxisRaw("Horizontal");
         yInput = Input.GetAxisRaw("Vertical");
         if (birdBody.position.y >= maxHeight && yInput > 0
@@ -162,6 +162,18 @@ public class PlayerController : MonoBehaviour
 
         if (xInput != 0 || yInput != 0)
         {
+            if (xInput > 0)
+            {
+                Quaternion flip = transform.localRotation;
+                flip.eulerAngles = new Vector3(0.0f, -90f, 0.0f);
+                transform.localRotation = flip;
+            }
+            else if (xInput < 0)
+            {
+                Quaternion flip = transform.localRotation;
+                flip.eulerAngles = new Vector3(0.0f, 90f, 0.0f);
+                transform.localRotation = flip;
+            }
             Vector3 movement_vector = new Vector3(xInput, yInput);
             movement_vector = movement_vector.normalized;
             birdBody.MovePosition(birdBody.position + movement_vector * Time.deltaTime * moveSpeed);

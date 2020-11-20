@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/MainMenu.unity
     guid: 3090c7e8ef4414932b41aa3bfccec03b
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/WindKingdom3D.unity
     guid: 4f0cab6e13ae449748aa5730f02689aa
   - enabled: 1
@@ -23,4 +23,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Aftermath.unity
     guid: c874367f81dabc9459e45b5db7fea991
+  - enabled: 1
+    path: Assets/Scenes/WindMaze.unity
+    guid: c889af9ce7d59d747a737fd374d4e1d0
   m_configObjects: {}

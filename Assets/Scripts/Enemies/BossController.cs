@@ -11,8 +11,8 @@ public class BossController : Enemy
     //private Enemy bossEnemy;
 
     [SerializeField]
-    [Tooltip("This boss' attack.")]
-    private Attack attack;
+    [Tooltip("The information for this boss' attack.")]
+    private EnemyAttackInfo attackInfo;
 
     [SerializeField]
     [Tooltip("The amount of time to wait before attacking (must be less than Frozen Time).")]
@@ -56,21 +56,23 @@ public class BossController : Enemy
 
     //private float cooldownTimer;
 
-    private Rigidbody bossRigidbody;
+    //private Rigidbody bossRigidbody;
 
     //private Enemy bossEnemy;
 
-    private float attackTime;
+    //private float attackTime;
 
-    private bool isAttacking = false;
+    //private bool isAttacking = false;
 
-    private int numAttackSoFar = 0;
+    //private int numAttackSoFar = 0;
 
     private bool hasAttacked = false;
 
     //private ParticleSystem attackEffect;
 
     private int moveIndex = 0;
+
+    private double healthThreshold = 0.75;
     #endregion
 
     #region Unity Functions
@@ -79,12 +81,12 @@ public class BossController : Enemy
     {
         base.Awake();
         //GetComponent<Renderer>().material.color = Color.white;
-        bossRigidbody = GetComponent<Rigidbody>();
+        //bossRigidbody = GetComponent<Rigidbody>();
         //bossEnemy = GetComponent<Enemy>();
         frozenTimer = frozenTime;
         attackWaitTimer = attackWaitTime;
         //cooldownTimer = cooldownTime;
-        attackTime = 0.6f;
+        //attackTime = 0.6f;
         HPBar.value = currHealth / totalHealth;
         //boss = Instantiate<Enemy>(bossEnemy, movePositions[i], Quaternion.identity);
         //attackEffect = GetComponentInChildren<ParticleSystem>();
@@ -120,6 +122,13 @@ public class BossController : Enemy
             //numAttackSoFar++;
             attackWaitTimer = attackWaitTime;
         }
+
+        if (HPBar.value <= healthThreshold)
+        {
+            attacksPerPosition++;
+            healthThreshold -= 0.25;
+            moveSpeed += 3;
+        } 
 
         //if (isAttacking)
         //{
@@ -170,9 +179,11 @@ public class BossController : Enemy
     {
         for (int i = 0; i < attacksPerPosition; i++)
         {
-            attack.UseAttack(transform.position + attack.attackOffset, Vector3.left, "Player");
+            GameObject attackGO = Instantiate(attackInfo.AttackGO, transform.position + attackInfo.AttackOffset, transform.rotation);
+            Attack attack = attackGO.GetComponent<Attack>();
+            attack.UseAttack(transform.position + attackInfo.AttackOffset, "Player");
             //Debug.Log("Attack Number: " + i);
-            yield return new WaitForSeconds(attack.cooldownTime);
+            yield return new WaitForSeconds(attack.CooldownTime);
         }
         //attacked = true;
     }
@@ -202,14 +213,14 @@ public class BossController : Enemy
             currHealth = totalHealth;
         }
         HPBar.value = currHealth / totalHealth;
-        Debug.Log("Current health of boss: " + currHealth);
+        //Debug.Log("Current health of boss: " + currHealth);
     }
 
     public override void TakeDamage(float amount)
     {
         currHealth -= amount;
         HPBar.value = currHealth / totalHealth;
-        Debug.Log("Current health of boss: " + currHealth);
+        //Debug.Log("Current health of boss: " + currHealth);
         if (currHealth <= 0)
         {
             Purify();

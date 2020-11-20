@@ -777,7 +777,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delayBeforeLoading: 15
-  sceneNameToLoad: WindKingdom3D
+  sceneNameToLoad: WindMaze
 --- !u!4 &1792104694
 Transform:
   m_ObjectHideFlags: 0
@@ -883,6 +883,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 0.05
-  fullText: 'Corruption has spread throughout Oravia, and has infected every single
-    bird...except you. You must travel through all of Oravia in order to defeat the
-    bosses and purify everyone!   '
+  fullText: 'A dark energy has spread throughout Oravia and has corrupted every single
+    bird...except you. You take it upon yourself to travel through all of Oravia
+    in order to purify every last bird and save Oravia from the darkness!   '

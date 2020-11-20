@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
 
     public void loadGame()
     {
-        SceneManager.LoadScene("WindKingdom3D");
+        SceneManager.LoadScene("WindMaze");
     }
     public void MainMenu()
     {
