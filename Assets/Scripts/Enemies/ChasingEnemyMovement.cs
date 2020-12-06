@@ -8,6 +8,7 @@ public class ChasingEnemyMovement : Enemy
     #region Tracking_variables
     // the player we want to chase
     Transform player;
+    Vector3 target;
     // body of the attached enemy
     Rigidbody EnemyRB;
     // the enemy
@@ -15,6 +16,7 @@ public class ChasingEnemyMovement : Enemy
     // the minimum distance we want for the enemy to start chasing
     [SerializeField]
     int minDist;
+    private bool facingRight = false;
     #endregion
 
     #region Unity_functions
@@ -30,10 +32,14 @@ public class ChasingEnemyMovement : Enemy
     // Update is called once per frame
     void Update()
     {
-        transform.LookAt(player);
-        if (Vector3.Distance(transform.position, player.position) <= minDist)
+        float distance = Vector3.Distance(transform.position, player.position);
+        if (distance <= minDist)
         {
-            transform.position += transform.forward * moveSpeed * Time.deltaTime;
+            if (player.transform.position.x < transform.position.x && facingRight)
+                Flip();
+            if (player.transform.position.x > transform.position.x && !facingRight)
+                Flip();
+            transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
         }
     }
 
@@ -45,4 +51,12 @@ public class ChasingEnemyMovement : Enemy
         }
     }
     #endregion
+
+    private void Flip()
+    {
+        facingRight = !facingRight;
+        Vector3 tmpScale = gameObject.transform.localScale;
+        tmpScale.z *= -1;
+        gameObject.transform.localScale = tmpScale;
+    }
 }

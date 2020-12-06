@@ -17,19 +17,46 @@ public class CameraFollow : MonoBehaviour
     public bool horizontalLock;
     private Vector3 desiredPosition;
     private Vector3 smoothedPosition;
-    // where we start being able to move upwards
+    // where we start the boss fight
     public float startBossArea;
     // so the camera does not go below ground
     public float groundLevel;
     // max height when you get to the mountain
     public float peak;
+
+    public GameObject boss;
+    public GameObject bossHealth;
+    public GameObject bossMusic;
+    //public GameObject levelMusic;
+    private bool levelMusicStopped;
     #endregion
 
     #region Unity_functions
+    private void Start()
+    {
+        levelMusicStopped = false;
+    }
+
     void LateUpdate()
     {
         if (target != null)
         {
+            if (target.position.x >= startBossArea)
+            {
+                boss.SetActive(true);
+                bossHealth.SetActive(true);
+                bossMusic.SetActive(true);
+                if (!levelMusicStopped)
+                {
+                    GameObject levelMusic = GameObject.Find("Background Music");
+                    if (levelMusic != null)
+                    {
+                        AudioSource audioSource = levelMusic.GetComponent<AudioSource>();
+                        StartCoroutine(FadeAudio(audioSource, 1));
+                    }  
+                }
+                offset.z = -125f;
+            }
             desiredPosition = target.position + offset;
             smoothedPosition = Vector3.SmoothDamp(transform.position, desiredPosition, ref currentVelocity, smoothSpeed);
             if (smoothedPosition.x >= startBossArea)
@@ -60,6 +87,24 @@ public class CameraFollow : MonoBehaviour
             transform.position = smoothedPosition;
         }
     }
-    #endregion
+   
 
+
+    IEnumerator FadeAudio(AudioSource audioSource, float duration)
+    {
+        {
+            float currentTime = 0;
+            float start = audioSource.volume;
+
+            while (currentTime < duration)
+            {
+                currentTime += Time.deltaTime;
+                audioSource.volume = Mathf.Lerp(start, 0, currentTime / duration);
+                yield return null;
+            }
+            yield break;
+        }
+    }
 }
+
+#endregion

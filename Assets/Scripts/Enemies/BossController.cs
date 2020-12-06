@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class BossController : Enemy
 {
@@ -11,8 +12,8 @@ public class BossController : Enemy
     //private Enemy bossEnemy;
 
     [SerializeField]
-    [Tooltip("The information for this boss' attack.")]
-    private EnemyAttackInfo attackInfo;
+    [Tooltip("The information for this boss' attacks.")]
+    private EnemyAttackInfo[] attackInfo;
 
     [SerializeField]
     [Tooltip("The amount of time to wait before attacking (must be less than Frozen Time).")]
@@ -73,6 +74,8 @@ public class BossController : Enemy
     private int moveIndex = 0;
 
     private double healthThreshold = 0.75;
+
+    private EnemyAttackInfo currAttack;
     #endregion
 
     #region Unity Functions
@@ -88,6 +91,7 @@ public class BossController : Enemy
         //cooldownTimer = cooldownTime;
         //attackTime = 0.6f;
         HPBar.value = currHealth / totalHealth;
+        currAttack = attackInfo[0];
         //boss = Instantiate<Enemy>(bossEnemy, movePositions[i], Quaternion.identity);
         //attackEffect = GetComponentInChildren<ParticleSystem>();
         //attackEffect.Stop();
@@ -102,6 +106,7 @@ public class BossController : Enemy
     void Update()
     {
         Debug.Log("Boss Update");
+        Debug.Log("Boss direction: " + transform.forward);
         if (frozenTimer > 0)
         {
             frozenTimer -= Time.deltaTime;
@@ -123,13 +128,6 @@ public class BossController : Enemy
             attackWaitTimer = attackWaitTime;
         }
 
-        if (HPBar.value <= healthThreshold)
-        {
-            attacksPerPosition++;
-            healthThreshold -= 0.25;
-            moveSpeed += 3;
-        } 
-
         //if (isAttacking)
         //{
         //    attackTime -= Time.deltaTime;
@@ -140,6 +138,8 @@ public class BossController : Enemy
         //        attackTime = 0.6f;
         //    }
         //}
+
+        TriggerEvent();
 
         Move();
     }
@@ -179,9 +179,10 @@ public class BossController : Enemy
     {
         for (int i = 0; i < attacksPerPosition; i++)
         {
-            GameObject attackGO = Instantiate(attackInfo.AttackGO, transform.position + attackInfo.AttackOffset, transform.rotation);
+            int index = i % attackInfo.Length;
+            GameObject attackGO = Instantiate(attackInfo[index].AttackGO, transform.position + attackInfo[index].AttackOffset, transform.rotation);
             Attack attack = attackGO.GetComponent<Attack>();
-            attack.UseAttack(transform.position + attackInfo.AttackOffset, "Player");
+            attack.UseAttack(transform.position + attackInfo[index].AttackOffset, "Player");
             //Debug.Log("Attack Number: " + i);
             yield return new WaitForSeconds(attack.CooldownTime);
         }
@@ -204,6 +205,18 @@ public class BossController : Enemy
     //}
     #endregion
 
+    #region Trigger Event
+    private void TriggerEvent()
+    {
+        if (HPBar.value <= healthThreshold)
+        {
+            attacksPerPosition++;
+            healthThreshold -= 0.25;
+            moveSpeed += 3;
+        }
+    }
+    #endregion
+
     #region Health Functions
     public override void Heal(float amount)
     {
@@ -224,6 +237,7 @@ public class BossController : Enemy
         if (currHealth <= 0)
         {
             Purify();
+            SceneManager.LoadScene("Aftermath");
         }
     }
     #endregion

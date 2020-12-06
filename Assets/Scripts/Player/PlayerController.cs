@@ -13,6 +13,7 @@ public class PlayerController : MonoBehaviour
     Player birdPlayer;
     Rigidbody birdBody;
     RigidbodyConstraints originalConstraints;
+    public int numFeathers;
     #endregion
 
     #region movementVariables
@@ -41,7 +42,7 @@ public class PlayerController : MonoBehaviour
 
     #region manaVariables
     public float totalMana;
-    private float currMana;
+    public float currMana;
     public Slider ManaBar;
     public float peckCooldown;
     public float dashCooldown;
@@ -95,11 +96,11 @@ public class PlayerController : MonoBehaviour
         currMana += manaRegenerationRate * Time.deltaTime;
         ManaBar.value = currMana / totalMana;
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking && currMana >= peckManaCost)
         {
             StartCoroutine(PeckAttack());
         }
-        if (Input.GetKeyDown(KeyCode.Mouse1) && !isAttacking)
+        if (Input.GetKeyDown(KeyCode.Mouse1) && !isAttacking && currMana >= dashManaCost)
         {
             StartCoroutine(DashAttack());
         }

@@ -58,7 +58,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8748892135801146194, guid: 3daba364f7fd74b6cbf41201e2b6f883, type: 3}
+  - {fileID: 2100000, guid: 78f354871d5cb4c4a94041f659eadb50, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -211,6 +211,13 @@ MonoBehaviour:
   rightBorder: 10
   Damage: 2
   attackRange: 2
+  totalMana: 0
+  ManaBar: {fileID: 0}
+  peckCooldown: 0
+  dashCooldown: 0
+  peckManaCost: 0
+  dashManaCost: 0
+  manaRegenerationRate: 0
 --- !u!1 &4047639065667536386
 GameObject:
   m_ObjectHideFlags: 0
@@ -269,7 +276,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: 3daba364f7fd74b6cbf41201e2b6f883, type: 3}
+  - {fileID: 2100000, guid: 06ed50447668f4877b6b254528a764cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -348,7 +355,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 8748892135801146194, guid: 3daba364f7fd74b6cbf41201e2b6f883, type: 3}
+  - {fileID: 2100000, guid: 78f354871d5cb4c4a94041f659eadb50, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -427,7 +434,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 5561349426305759274, guid: 3daba364f7fd74b6cbf41201e2b6f883, type: 3}
+  - {fileID: 2100000, guid: 06ed50447668f4877b6b254528a764cf, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

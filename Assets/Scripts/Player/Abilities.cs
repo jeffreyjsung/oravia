@@ -17,6 +17,8 @@ public class Abilities : MonoBehaviour
     bool isCooldown2 = false;
     public KeyCode dashAbility;
 
+    public PlayerController player;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -27,6 +29,14 @@ public class Abilities : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (player.currMana < player.peckManaCost)
+        {
+            peckingAbilityIcon.fillAmount = 1;
+        }
+        if (player.currMana < player.peckManaCost)
+        {
+            dashingAbilityIcon.fillAmount = 1;
+        }
         peckingAbility();
         dashingAbility();
     }

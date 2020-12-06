@@ -7,8 +7,8 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: cloud
-  m_Shader: {fileID: -6465566751694194690, guid: 479285bb52fce4e729674f1dce22158f,
+  m_Name: ultra_bright_cloud
+  m_Shader: {fileID: -6465566751694194690, guid: 285e942f08cd34dc190c616d59b340d3,
     type: 3}
   m_ShaderKeywords: 
   m_LightmapFlags: 4
@@ -23,10 +23,10 @@ Material:
     serializedVersion: 3
     m_TexEnvs: []
     m_Floats:
-    - Vector1_1F4CA916: 0.24
-    - Vector1_63E729DE: 6.35
-    - Vector1_8636A6F3: 1.16
-    - Vector1_87067357: 0.39
+    - Vector1_9D184686: 0.1
+    - Vector1_BEE97428: 2.1
+    - Vector1_C2354EF8: 100
+    - Vector1_EEE397F7: 20
     m_Colors:
-    - Color_6BFD169F: {r: 0.7075472, g: 0.61743504, b: 0.61743504, a: 0}
-    - Color_C7ED3E43: {r: 1, g: 1, b: 1, a: 0}
+    - Color_702F6782: {r: 0, g: 0.96078444, b: 1, a: 0.50980395}
+    - Color_C7BA4B63: {r: 1, g: 1, b: 1, a: 0.5019608}

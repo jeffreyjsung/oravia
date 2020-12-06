@@ -7,6 +7,17 @@ public class EnemyAttackInfo
 {
     #region Attack Variables
     [SerializeField]
+    [Tooltip("The name of this attack.")]
+    protected string name;
+    public float Name
+    {
+        get
+        {
+            return Name;
+        }
+    }
+
+    [SerializeField]
     [Tooltip("The prefab of this attack.")]
     private GameObject attackGO;
     public GameObject AttackGO
