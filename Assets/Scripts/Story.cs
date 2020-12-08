@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class Story : MonoBehaviour
@@ -76,6 +77,8 @@ public class Story : MonoBehaviour
     private bool ending;
 
     private AudioSource thunder;
+    private Animator anim;
+    private Image BlackImage;
 
     void Awake()
     {
@@ -84,7 +87,8 @@ public class Story : MonoBehaviour
         thunder.volume = .4f;
         thunder.clip = ThunderClip;
 
-
+        anim = Black.GetComponent<Animator>();
+        BlackImage = Black.GetComponent<Image>();
     }
 
     // Start is called before the first frame update
@@ -180,7 +184,7 @@ public class Story : MonoBehaviour
                 animator.SetBool("Shake", false);
                 Tornadoes.SetActive(false);
                 BirdsGroupDark.SetActive(true);
-                Black.SetActive(false);
+                
                 corrupting = false;
                 chasing = true;
                 yield return new WaitForSeconds(2.0f);
@@ -190,6 +194,8 @@ public class Story : MonoBehaviour
             {
                 AudioSource audioSource = GetComponent<AudioSource>();
                 StartCoroutine(FadeAudio(audioSource, 1));
+                //StartCoroutine(FadeFromBlack());
+                Black.SetActive(false);
                 foreach (Transform child in BirdsGroupCorrupted.transform)
                 {
                     child.eulerAngles = new Vector3(0, 90f, 0);
@@ -224,8 +230,9 @@ public class Story : MonoBehaviour
                 animator.SetBool("Shake", true);
                 if (NonCorrupted.transform.position.x <= 130)
                 {
-                    Black.SetActive(true);
                     skipped = true;
+                    Black.SetActive(true);
+                    //StartCoroutine(FadeToBlack());
                 }
                 
             }
@@ -248,6 +255,19 @@ public class Story : MonoBehaviour
             }
             yield break;
         }
+    }
+
+    IEnumerator FadeToBlack()
+    {
+        anim.SetBool("Fade", true);
+        yield return new WaitUntil(() => BlackImage.color.a == 1);
+        SceneManager.LoadScene("IntroStory");
+    }
+
+    IEnumerator FadeFromBlack()
+    {
+        anim.SetBool("Fade", false);
+        yield return new WaitUntil(() => BlackImage.color.a == 0);
     }
 
 }

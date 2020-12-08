@@ -76,6 +76,10 @@ public class BossController : Enemy
     private double healthThreshold = 0.75;
 
     private EnemyAttackInfo currAttack;
+
+    [SerializeField]
+    [Tooltip("Overall Score")]
+    private OverallScore overallScore;
     #endregion
 
     #region Unity Functions
@@ -237,6 +241,14 @@ public class BossController : Enemy
         if (currHealth <= 0)
         {
             Purify();
+            GameObject levelMusic = GameObject.Find("Background Music");
+            if (levelMusic != null)
+            {
+                levelMusic.SetActive(false);
+            }
+            overallScore.battleStarted = false;
+            overallScore.finalResult = overallScore.timerText.text;
+            Debug.Log("Time: " + overallScore.timeAlive);
             SceneManager.LoadScene("Aftermath");
         }
     }

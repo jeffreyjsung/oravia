@@ -56,6 +56,12 @@ public class Player : MonoBehaviour
         corrupted = true;
         Destroy(this.gameObject);
 
+        GameObject levelMusic = GameObject.Find("Background Music");
+        if (levelMusic != null)
+        {
+            levelMusic.SetActive(false);
+        }
+
         SceneManager.LoadScene("DeathScene");
 
         // Maybe implement something later on here to end the game (Proj1 used a GameManager to end the game).
