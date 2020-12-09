@@ -7,6 +7,7 @@ public class TypeWriterEffect : MonoBehaviour
 {
     public float delay = 0.1f;
     public string fullText;
+    public SkipIntroStory skip;
     private string currentText = "";
 
     private void Start()
@@ -18,6 +19,7 @@ public class TypeWriterEffect : MonoBehaviour
     {
         for (int i = 0; i < fullText.Length; i++)
         {
+            if (skip.shown) break;
             currentText = fullText.Substring(0, i);
             this.GetComponent<Text>().text = currentText;
             yield return new WaitForSeconds(delay);

@@ -159,8 +159,8 @@ BoxCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 0.1, y: 0.06, z: 0.17}
-  m_Center: {x: 0, y: 0, z: 0}
+  m_Size: {x: 0.1, y: 0.035527866, z: 0.05851593}
+  m_Center: {x: -2.5710646e-17, y: -0.0040786504, z: -0.0027191327}
 --- !u!114 &4580648291036452924
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -176,17 +176,16 @@ MonoBehaviour:
   totalHealth: 10
   damageDealt: 2.5
   moveSpeed: 5
+  attackInfo: []
   attackWaitTime: 0.5
   frozenTime: 5
-  cooldownTime: 1.5
-  attackRange: 30
-  attackOffset: {x: 0, y: 0, z: 0}
   attacksPerPosition: 2
   movePositions:
   - {x: 16, y: 38, z: -63}
   - {x: 16, y: 50, z: -63}
   HPBar: {fileID: 0}
   bounds: []
+  overallScore: {fileID: 0}
 --- !u!95 &3750157889728300043
 Animator:
   serializedVersion: 3
@@ -480,6 +479,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8743051334192489482}
+  - component: {fileID: 5389993310464925482}
   m_Layer: 0
   m_Name: head
   m_TagString: Untagged
@@ -495,12 +495,25 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3541229378139442524}
   m_LocalRotation: {x: 8.549421e-17, y: -0.7107799, z: -8.549421e-17, w: 0.7034145}
-  m_LocalPosition: {x: 0.017556177, y: 0.0089891525, z: 0.00018287686}
+  m_LocalPosition: {x: 0.017556177, y: 0.0089891525, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 6817097218853649125}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!135 &5389993310464925482
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3541229378139442524}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.010558067
+  m_Center: {x: 0, y: -0.002046174, z: 0}
 --- !u!1 &3741600461984887575
 GameObject:
   m_ObjectHideFlags: 0
@@ -633,6 +646,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6863578373805102599}
+  - component: {fileID: 2715257708122318618}
   m_Layer: 0
   m_Name: right
   m_TagString: Untagged
@@ -655,6 +669,19 @@ Transform:
   m_Father: {fileID: 6817097218853649125}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &2715257708122318618
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5774193124389340660}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 0.029276375, y: 0.014648093, z: 0.068676285}
+  m_Center: {x: -0.01357211, y: 0.00261331, z: 0.06398604}
 --- !u!1 &5828547351243265481
 GameObject:
   m_ObjectHideFlags: 0

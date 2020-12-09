@@ -25,16 +25,33 @@ public class CameraFollow : MonoBehaviour
     public float peak;
 
     public GameObject boss;
+    public GameObject lightningWhenBossEntered;
     public GameObject bossHealth;
     public GameObject bossMusic;
+    public AudioClip backgroundMusicClip;
     //public GameObject levelMusic;
     private bool levelMusicStopped;
+    private bool bossEntered;
+    private AudioSource music;
     #endregion
 
     #region Unity_functions
     private void Start()
     {
         levelMusicStopped = false;
+        bossEntered = false;
+        GameObject levelMusic = GameObject.Find("Background Music");
+        if (levelMusic == null)
+        {
+            levelMusic = (GameObject)Instantiate(new GameObject(), Vector3.zero, Quaternion.identity);
+            levelMusic.name = "Background Music";
+            music = levelMusic.AddComponent<AudioSource>();
+            music.playOnAwake = false;
+            music.volume = .266f;
+            music.clip = backgroundMusicClip;
+            music.loop = true;
+            music.Play();
+        }
     }
 
     void LateUpdate()
@@ -43,9 +60,17 @@ public class CameraFollow : MonoBehaviour
         {
             if (target.position.x >= startBossArea)
             {
-                boss.SetActive(true);
-                bossHealth.SetActive(true);
-                bossMusic.SetActive(true);
+                if (!bossEntered)
+                {
+                    boss.SetActive(true);
+                    
+                    StartCoroutine(BossEnter(boss));
+                    bossHealth.SetActive(true);
+                    bossMusic.SetActive(true);
+                    bossEntered = true;
+                    
+                }
+                
                 if (!levelMusicStopped)
                 {
                     GameObject levelMusic = GameObject.Find("Background Music");
@@ -55,7 +80,7 @@ public class CameraFollow : MonoBehaviour
                         StartCoroutine(FadeAudio(audioSource, 1));
                     }  
                 }
-                offset.z = -125f;
+                //offset.z = -125f;
             }
             desiredPosition = target.position + offset;
             smoothedPosition = Vector3.SmoothDamp(transform.position, desiredPosition, ref currentVelocity, smoothSpeed);
@@ -104,6 +129,19 @@ public class CameraFollow : MonoBehaviour
             }
             yield break;
         }
+    }
+
+    IEnumerator BossEnter(GameObject boss)
+    {
+        
+        while (boss.transform.position.z < 0)
+        {
+            boss.transform.position += new Vector3(1.2f, 0, 1.2f);
+            yield return null;
+        }
+        lightningWhenBossEntered.SetActive(true);
+        boss.GetComponent<AudioSource>().Play();
+
     }
 }
 

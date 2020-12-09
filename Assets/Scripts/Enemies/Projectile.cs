@@ -7,12 +7,6 @@ public class Projectile : MonoBehaviour
     public float damage;
     private void OnCollisionEnter(Collision collision)
     {
-
-        if (collision.gameObject.CompareTag("Enemy"))
-        {
-            Physics.IgnoreCollision(collision.collider, collision.collider);
-        }
-
         if (collision.gameObject.CompareTag("Player"))
         {
             collision.gameObject.GetComponent<Player>().TakeDamage(damage);

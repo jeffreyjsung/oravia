@@ -1040,7 +1040,10 @@ MonoBehaviour:
   groundLevel: 0
   peak: 0
   boss: {fileID: 0}
+  lightningWhenBossEntered: {fileID: 0}
   bossHealth: {fileID: 0}
+  bossMusic: {fileID: 0}
+  backgroundMusicClip: {fileID: 0}
 --- !u!114 &988257893 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8388690501449320492, guid: e3bf298aeef2780478e4a9b3f9a71c08,
@@ -1360,7 +1363,7 @@ PrefabInstance:
         type: 3}
       propertyPath: attackInfo.Array.data[1].attackGO
       value: 
-      objectReference: {fileID: 2270784900085833382, guid: 397c0be1d2848494799e62b59f3f8ff7,
+      objectReference: {fileID: 951663833828342366, guid: e9f04747fa6e9fb44891f12a83ddd6b4,
         type: 3}
     - target: {fileID: 4824433067701930613, guid: 08d43a7ba0934fa4e9a0e879ea23e694,
         type: 3}
@@ -1600,6 +1603,7 @@ MonoBehaviour:
   Damage: 2
   attackRange: 2
   totalMana: 500
+  currMana: 0
   ManaBar: {fileID: 2104254874}
   peckCooldown: 0.5
   dashCooldown: 1
@@ -1620,6 +1624,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   totalHealth: 20
   HPBar: {fileID: 988257893}
+  healthRegenerationRate: 0
 --- !u!54 &1424182985
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -1872,12 +1877,12 @@ PrefabInstance:
     - target: {fileID: 2270784900085833386, guid: 397c0be1d2848494799e62b59f3f8ff7,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 2.5
+      value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 2270784900085833386, guid: 397c0be1d2848494799e62b59f3f8ff7,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.5
+      value: 35.2
       objectReference: {fileID: 0}
     - target: {fileID: 2270784900085833386, guid: 397c0be1d2848494799e62b59f3f8ff7,
         type: 3}

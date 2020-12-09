@@ -6,10 +6,11 @@ public class TornadoAttack : Attack
 {
     private Vector3 endPosition;
     private string target = "";
+    private Transform targetTranform;
 
     private void Awake()
     {
-        endPosition = transform.position - transform.forward * attackRange;
+        //endPosition = transform.position - transform.forward * attackRange;
     }
 
     private void Update()
@@ -19,7 +20,7 @@ public class TornadoAttack : Attack
             Destroy(this.gameObject);
         } else
         {
-            transform.position = Vector3.MoveTowards(transform.position, endPosition, 7 * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, endPosition, 10 * Time.deltaTime);
         }
         //Debug.Log("Direction of capsule: " + transform.forward);
         //Debug.Log("Current position: " + transform.position + ", End position: " + endPosition);
@@ -45,5 +46,7 @@ public class TornadoAttack : Attack
     public override void UseAttack(Vector3 spawnPos, string target)
     {
         this.target = target;
+        targetTranform = GameObject.FindWithTag(target).transform;
+        endPosition = targetTranform.position;
     }
 }

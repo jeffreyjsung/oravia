@@ -40,7 +40,9 @@ public class ChasingEnemyMovement : Enemy
             if (player.transform.position.x > transform.position.x && !facingRight)
                 Flip();
             transform.position = Vector3.MoveTowards(transform.position, player.position, moveSpeed * Time.deltaTime);
+            gameObject.GetComponentInChildren<Animator>().SetBool("isMoving", true);
         }
+        else gameObject.GetComponentInChildren<Animator>().SetBool("isMoving", false);
     }
 
     private void OnCollisionStay(Collision col)

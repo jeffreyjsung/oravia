@@ -33,7 +33,8 @@ public class LightningCloud : MonoBehaviour
         {
             if (!isSpawning)
             {
-                InvokeRepeating("Strike", 2.0f, 5.0f);
+                float rand = Random.Range(3.0f, 5.0f);
+                InvokeRepeating("Strike", 2.0f, rand);
                 isSpawning = true;
             }
         } else

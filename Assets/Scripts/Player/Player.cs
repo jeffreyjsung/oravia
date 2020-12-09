@@ -11,6 +11,7 @@ public class Player : MonoBehaviour
     private float currHealth;
     private bool corrupted;
     public Slider HPBar;
+    public float healthRegenerationRate;
     #endregion
 
     #region unityFunctions
@@ -19,6 +20,15 @@ public class Player : MonoBehaviour
         corrupted = false;
         currHealth = totalHealth;
 
+        HPBar.value = currHealth / totalHealth;
+    }
+
+    private void Update()
+    {
+        if (currHealth + healthRegenerationRate*Time.deltaTime <= totalHealth)
+        {
+            currHealth += healthRegenerationRate * Time.deltaTime;
+        }
         HPBar.value = currHealth / totalHealth;
     }
     #endregion

@@ -34,6 +34,8 @@ public class PlayerController : MonoBehaviour
     public float Damage;
     public float attackRange;
     private bool isAttacking;
+    private float peckAttackTimer;
+    private float dashAttackTimer;
 
     // The following booleans could replace isAttacking later
     private bool isPeckReady;
@@ -65,6 +67,8 @@ public class PlayerController : MonoBehaviour
         birdBody = GetComponent<Rigidbody>();
         originalConstraints = birdBody.constraints;
         isAttacking = false;
+        peckAttackTimer = 0;
+        dashAttackTimer = 0;
 
         currMana = totalMana;
         ManaBar.value = currMana / totalMana;
@@ -96,12 +100,14 @@ public class PlayerController : MonoBehaviour
         currMana += manaRegenerationRate * Time.deltaTime;
         ManaBar.value = currMana / totalMana;
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking && currMana >= peckManaCost)
+        if (Input.GetKeyDown(KeyCode.Mouse0) && !isAttacking && currMana >= peckManaCost && peckAttackTimer <= 0)
         {
+            peckAttackTimer = peckCooldown;
             StartCoroutine(PeckAttack());
         }
-        if (Input.GetKeyDown(KeyCode.Mouse1) && !isAttacking && currMana >= dashManaCost)
+        else if (Input.GetKeyDown(KeyCode.Mouse1) && !isAttacking && currMana >= dashManaCost && dashAttackTimer <= 0)
         {
+            dashAttackTimer = dashCooldown;
             StartCoroutine(DashAttack());
         }
         /*
@@ -110,9 +116,13 @@ public class PlayerController : MonoBehaviour
             chooseAttack();
         }
         */
-        if (Input.GetKeyDown(KeyCode.Escape) == true)
+        else if (Input.GetKeyDown(KeyCode.Escape) == true)
         {
             SceneManager.LoadScene("MainMenu");
+        } else
+        {
+            peckAttackTimer -= Time.deltaTime;
+            dashAttackTimer -= Time.deltaTime;
         }
     }
 
@@ -219,10 +229,11 @@ public class PlayerController : MonoBehaviour
     IEnumerator DashAttack()
     {
 
-        if (currMana <= 0)
+        if (currMana <= dashManaCost)
         {
             isAttacking = false;
-            yield return new WaitForSeconds(dashCooldown);
+            //yield return new WaitForSeconds(dashCooldown);
+            yield return null;
         }
 
         isAttacking = true;
@@ -242,6 +253,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("Dash Attack Cooldown: " + dashCooldown.ToString());
 
         isAttacking = false;
+        yield return null;
     }
     
     /*

@@ -33,7 +33,8 @@ public class Abilities : MonoBehaviour
         {
             peckingAbilityIcon.fillAmount = 1;
         }
-        if (player.currMana < player.peckManaCost)
+
+        if (player.currMana < player.dashManaCost)
         {
             dashingAbilityIcon.fillAmount = 1;
         }
@@ -49,7 +50,7 @@ public class Abilities : MonoBehaviour
             peckingAbilityIcon.fillAmount = 1;
         }
 
-        if (isCooldown)
+        if (isCooldown && player.currMana >= player.peckManaCost)
         {
             peckingAbilityIcon.fillAmount -= 1 / peckCooldown * Time.deltaTime;
 
@@ -69,7 +70,7 @@ public class Abilities : MonoBehaviour
             dashingAbilityIcon.fillAmount = 1;
         }
 
-        if (isCooldown2)
+        if (isCooldown2 && player.currMana >= player.dashManaCost)
         {
             dashingAbilityIcon.fillAmount -= 1 / dashCooldown * Time.deltaTime;
 

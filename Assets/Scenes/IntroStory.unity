@@ -514,8 +514,10 @@ MonoBehaviour:
   groundLevel: 17.8
   peak: 93
   boss: {fileID: 0}
+  lightningWhenBossEntered: {fileID: 0}
   bossHealth: {fileID: 0}
   bossMusic: {fileID: 0}
+  backgroundMusicClip: {fileID: 0}
 --- !u!114 &349840122
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -700,7 +702,7 @@ PrefabInstance:
     - target: {fileID: 2729153705852089111, guid: 4ed10cee19dc1fe45b60df979fb99e42,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 306
+      value: 106
       objectReference: {fileID: 0}
     - target: {fileID: 2729153705852089111, guid: 4ed10cee19dc1fe45b60df979fb99e42,
         type: 3}
@@ -879,6 +881,53 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &787783866
+GameObject:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 787783868}
+  - component: {fileID: 787783867}
+  m_Layer: 0
+  m_Name: StaticLightingSky
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &787783867
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787783866}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 441482e8936e35048a1dffac814e3ef8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Profile: {fileID: 0}
+  m_StaticLightingSkyUniqueID: 0
+  m_SkySettings: {fileID: 0}
+  m_SkySettingsFromProfile: {fileID: 0}
+--- !u!4 &787783868
+Transform:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 787783866}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1320896366
 GameObject:
@@ -1365,7 +1414,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0ee01287681584843806c5e330fc4ad8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  delayBeforeLoading: 15
+  delayBeforeLoading: 50
   sceneNameToLoad: WindMaze
 --- !u!4 &1792104694
 Transform:
@@ -1380,6 +1429,60 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1897586885
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1897586887}
+  - component: {fileID: 1897586886}
+  m_Layer: 0
+  m_Name: Skip
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1897586886
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897586885}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0c7254620717d14cb1ea6821718d572, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fullText: A dark energy has spread throughout Oravia and has corrupted every single
+    bird...except you. You take it upon yourself to travel through Oravia in order
+    to purify every last bird and save Oravia from the darkness! But beware! Your
+    former friends are now corrupted and will try to attack you, and the Ruler of
+    Oravia has unleashed a disastrous storm you must plow through. To stop the storm
+    and purify everyone, you must battle head to head with the Ruler of Oravia. However,
+    you are not strong enough right now, so you must collect feathers to gain enough
+    strength before attempting to cure your Ruler from the darkness. Good luck!!!
+  currText: {fileID: 2123483614}
+  sceneNameToLoad: WindMaze
+  shown: 0
+--- !u!4 &1897586887
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1897586885}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 70.515854, y: 12.491919, z: 31.5366}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 9
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2123483612
 GameObject:
@@ -1416,7 +1519,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 100}
+  m_AnchoredPosition: {x: 0, y: 60}
   m_SizeDelta: {x: 750, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &2123483614
@@ -1439,7 +1542,7 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: df707251056093b4584e7b24c70fa540, type: 3}
-    m_FontSize: 25
+    m_FontSize: 20
     m_FontStyle: 0
     m_BestFit: 0
     m_MinSize: 0
@@ -1472,6 +1575,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   delay: 0.05
-  fullText: 'A dark energy has spread throughout Oravia and has corrupted every single
-    bird...except you. You take it upon yourself to travel through all of Oravia
-    in order to purify every last bird and save Oravia from the darkness!   '
+  fullText: A dark energy has spread throughout Oravia and has corrupted every single
+    bird...except you. You take it upon yourself to travel through Oravia in order
+    to purify every last bird and save Oravia from the darkness! But beware! Your
+    former friends are now corrupted and will try to attack you, and the Ruler of
+    Oravia has unleashed a disastrous storm you must plow through. To stop the storm
+    and purify everyone, you must battle head to head with the Ruler of Oravia. However,
+    you are not strong enough right now, so you must collect feathers to gain enough
+    strength before attempting to cure your Ruler from the darkness. Good luck!!!
+  skip: {fileID: 1897586886}

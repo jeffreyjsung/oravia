@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6764159708690145477}
   - component: {fileID: 8475920279677471991}
   m_Layer: 0
-  m_Name: lightning_strike
+  m_Name: lightningVFXgraph
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

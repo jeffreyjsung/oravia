@@ -50,7 +50,7 @@ MeshRenderer:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2270784900085833382}
-  m_Enabled: 1
+  m_Enabled: 0
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -92,7 +92,7 @@ CapsuleCollider:
   m_Material: {fileID: 0}
   m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.5000001
+  m_Radius: 0.2
   m_Height: 2
   m_Direction: 1
   m_Center: {x: 0.000000059604645, y: 0, z: -0.00000008940697}
@@ -112,6 +112,8 @@ MonoBehaviour:
   attackRange: 0
   cooldownTime: 1
   timeToDestruction: 0.75
+  thunderClip: {fileID: 0}
+  visual: {fileID: 951663833828342366, guid: 517af042527ffe342af62f967ea74a91, type: 3}
 --- !u!82 &4238494823104712819
 AudioSource:
   m_ObjectHideFlags: 0

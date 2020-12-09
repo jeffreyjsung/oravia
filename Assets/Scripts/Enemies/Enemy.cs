@@ -10,6 +10,10 @@ public class Enemy : MonoBehaviour
     [Tooltip("The total health of this enemy.")]
     protected float totalHealth;
 
+    [SerializeField]
+    [Tooltip("purify effect")]
+    protected ParticleSystem purify;
+
     protected float currHealth;
 
     private bool corrupted;
@@ -60,6 +64,7 @@ public class Enemy : MonoBehaviour
         corrupted = false;
 
         // Need enemy to disappear when defeated
+        Instantiate(purify, transform.position, Quaternion.identity);
         Destroy(this.gameObject);
     }
     #endregion

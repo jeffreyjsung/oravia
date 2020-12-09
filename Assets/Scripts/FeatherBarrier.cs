@@ -7,12 +7,12 @@ public class FeatherBarrier : MonoBehaviour
 {
     void OnTriggerEnter(Collider collider)
     {
-        if (collider.transform.CompareTag("Player") && collider.transform.GetComponent<PlayerController>().numFeathers < 6)
+        if (collider.transform.CompareTag("Player") && collider.transform.GetComponent<PlayerController>().numFeathers < 10)
         {
             gameObject.GetComponent<BoxCollider>().isTrigger = false;
-            Debug.Log("You don't have enough feathers yet! Please collect at least 6 feathers in order to fight the boss");
+            Debug.Log("You don't have enough feathers yet! Please collect at least 10 feathers in order to fight the boss");
         } 
-        if (collider.transform.CompareTag("Player") && collider.transform.GetComponent<PlayerController>().numFeathers >= 6)
+        if (collider.transform.CompareTag("Player") && collider.transform.GetComponent<PlayerController>().numFeathers >= 10)
         {
             Destroy(gameObject);
         }
